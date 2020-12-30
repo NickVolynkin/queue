@@ -295,14 +295,38 @@ The `task_state` field takes one of the following values
 (different queue types support different
 sets of `task_state` values, so this is a superset):
 
-* 'r' - the task is ready for execution (the first consumer executing
+* 'r' - the task is **ready** for execution (the first consumer executing
 a `take` request will get it)
-* 't' - the task has been taken by a consumer
-* '-' - the task has been executed (a task is removed from the queue
-after it
-   has been executed, so this value will rarely be seen)
-* '!' - the task is buried (disabled temporarily until further changes)
-* '~' - the task is delayed for some time
+* 't' - the task has been **taken** by a consumer
+* '-' - the task has been **executed (done)** (a task is removed from the queue
+after it has been executed, so this value will rarely be seen)
+* '!' - the task is **buried** (disabled temporarily until further changes)
+* '~' - the task is **delayed** for some time.
+
+For better understanding of the task life cycle, below is the task state
+diagram with indication of all transitions between the tasks states and
+triggers of these transitions.
+
+@startuml
+[*] --> READY : put()
+[*] --> DELAYED : put('my_task_data', { delay = delay })
+READY --> TAKEN : take()
+READY --> DONE : delete()
+READY --> BURIED : bury()
+READY --> DONE : ttl timeout
+TAKEN --> READY : release()
+TAKEN --> READY : ttr timeout
+TAKEN --> DELAYED : release(id, { delay = delay })
+TAKEN --> DONE : ack()
+TAKEN --> BURIED : bury()
+TAKEN --> DONE : delete()
+BURIED --> DONE : delete()
+BURIED --> READY : kick()
+BURIED --> DONE: ttl timeout
+DELAYED --> READY : timeout
+DELAYED --> DONE : delete()
+DONE --> [*] : remove executed task
+@enduml
 
 # Installing
 
@@ -323,7 +347,7 @@ queue = require 'queue'
 The request "require 'queue'" causes automatic creation of
 the `_queue` space, unless it already exists. The same request
 also sets the necessary space triggers and other objects
-associated with queues.  
+associated with queues.
 If the instance hasn't been configured yet (`box.cfg()` hasn't been called),
 the initialization of the queue module will be deferred until the instance will
 be configured ("lazy start"). For a good work of the queue, it's necessary to
@@ -367,8 +391,8 @@ Example: `queue.create_tube('list_of_sites', 'fifo', {temporary = true})`
 queue.cfg({options})
 ```
 
-Set queue settings.  
-If an invalid value or an unknown option is used, an error will be thrown.  
+Set queue settings.
+If an invalid value or an unknown option is used, an error will be thrown.
 Available `options`:
 * `ttr` - time to release in seconds. The time after which, if there is no active
 connection in the session, it will be released with all its tasks.
@@ -381,15 +405,15 @@ queue.identify(session_uuid)
 
 In the queue the session has a unique UUID and many connections may share one
 logical session. Also, the consumer can reconnect to the existing session during
-the`ttr` time.  
+the`ttr` time.
 To get the UUID of the current session, call the `queue.identify()`
-without parameters.  
+without parameters.
 To connect to the existing session, call the `queue.identify(session_uuid)`
-with the UUID of the session.  
+with the UUID of the session.
 In case of attempt to use an invalid format UUID or expired UUID, an error will
 be thrown.
 
-Usage example:  
+Usage example:
 Sometimes we need an ability to acknowledge a task after reconnect (because
 retrying it is undesirable) or even acknowlegde using another connection.
 
