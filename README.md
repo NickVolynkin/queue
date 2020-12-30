@@ -304,29 +304,10 @@ after it has been executed, so this value will rarely be seen)
 * '~' - the task is **delayed** for some time.
 
 For better understanding of the task life cycle, below is the task state
-diagram with indication of all transitions between the tasks states and
-triggers of these transitions.
+diagram with indication of all transitions between the tasks states mentioned
+above and triggers of these transitions.
 
-@startuml
-[*] --> READY : put()
-[*] --> DELAYED : put('my_task_data', { delay = delay })
-READY --> TAKEN : take()
-READY --> DONE : delete()
-READY --> BURIED : bury()
-READY --> DONE : ttl timeout
-TAKEN --> READY : release()
-TAKEN --> READY : ttr timeout
-TAKEN --> DELAYED : release(id, { delay = delay })
-TAKEN --> DONE : ack()
-TAKEN --> BURIED : bury()
-TAKEN --> DONE : delete()
-BURIED --> DONE : delete()
-BURIED --> READY : kick()
-BURIED --> DONE: ttl timeout
-DELAYED --> READY : timeout
-DELAYED --> DONE : delete()
-DONE --> [*] : remove executed task
-@enduml
+[ ](images/task_state_diag.png)
 
 # Installing
 
