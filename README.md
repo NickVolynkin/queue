@@ -307,7 +307,7 @@ For better understanding of the task life cycle, below is the task state
 diagram with indication of all transitions between the tasks states mentioned
 above and triggers of these transitions.
 
-[ ](images/task_state_diag.png)
+![Task state diagram](images/task_state_diag.png)
 
 # Installing
 
