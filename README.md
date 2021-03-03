@@ -307,7 +307,7 @@ For better understanding of the task life cycle, below is the task state
 diagram with indication of all transitions between the tasks states mentioned
 above and triggers of these transitions.
 
-![Task state diagram](images/task_state_diag.png)
+![Task state diagram](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/tarantool/queue/gh-123-task-state-diag/doc/src/statediagram.iuml)
 
 # Installing
 
