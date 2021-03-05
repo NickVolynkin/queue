@@ -21,6 +21,7 @@ align="right">
   * [Fields of the \_queue\_taken\_2 space](#fields-of-the-_queue_taken_2-space)
   * [Fields of the \_queue\_session\_ids space](#fields-of-the-_queue_session_ids-space)
   * [Fields of the space associated with each queue](#fields-of-the-space-associated-with-each-queue)
+* [Task state diagram](#task-state-diagram)
 * [Installing](#installing)
 * [Using the queue module](#using-the-queue-module)
   * [Initialization](#initialization)
@@ -303,7 +304,7 @@ after it has been executed, so this value will rarely be seen)
 * '!' - the task is **buried** (disabled temporarily until further changes)
 * '~' - the task is **delayed** for some time.
 
-For details on the state transitions, refer to [Task state diagram] (#task-state-diagram).
+For details on the state transitions, refer to [Task state diagram](#task-state-diagram).
 
 # Task state diagram
 
