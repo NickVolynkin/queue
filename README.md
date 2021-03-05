@@ -303,9 +303,22 @@ after it has been executed, so this value will rarely be seen)
 * '!' - the task is **buried** (disabled temporarily until further changes)
 * '~' - the task is **delayed** for some time.
 
-For better understanding of the task life cycle, below is the task state
-diagram with indication of all transitions between the tasks states mentioned
-above and triggers of these transitions.
+For details on the state transitions, refer to [Task state diagram] (#task-state-diagram).
+
+# Task state diagram
+
+The following diagram shows possible transitions between the [task states](#fields-of-the-space-associated-with-each-queue).
+For information on the transition triggers, refer to:
+
+* [put()](#putting-a-task-in-a-queue)
+* [release()](#releasing-a-task)
+* [take()](#taking-a-task-from-the-queue-consuming)
+* [kick()](#kicking-a-number-of-tasks)
+* [bury()](#burying-a-task)
+* [ack()](#acknowledging-the-completion-of-a-task)
+* [delete()](#deleting-a-task)
+* description of the `timeout`, `ttl timeout`, and `ttr timeout` options in
+the sections of the corresponding [queue types](#queue-types).
 
 ![Task state diagram](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/tarantool/queue/gh-123-task-state-diag/doc/src/statediagram.iuml)
 
