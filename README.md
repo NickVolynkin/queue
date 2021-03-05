@@ -321,7 +321,7 @@ For information on the transition triggers, refer to:
 * description of the `timeout`, `ttl timeout`, and `ttr timeout` options in
 the sections of the corresponding [queue types](#queue-types).
 
-![Task state diagram](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/tarantool/queue/gh-123-task-state-diag/doc/src/statediagram.iuml)
+![Task state diagram](./doc/src/statediagram.svg)
 
 # Installing
 
